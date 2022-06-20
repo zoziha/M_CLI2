@@ -2986,7 +2986,7 @@ integer                              :: half,sz,i
    if(allocated(xarray))deallocate(xarray)
    allocate(xarray(half))
    do i=1,sz,2
-      xarray((i+1)/2)=cmplx( darray(i),darray(i+1) )
+      xarray((i+1)/2)=cmplx( darray(i),darray(i+1),kind=sp )
    enddo
    !x!================================================================================================
 
@@ -5973,13 +5973,12 @@ character(len=:),allocatable :: c
 end function c
 !===================================================================================================================================
 subroutine get_generic(name,generic)
-use,intrinsic :: iso_fortran_env, only : real64
 character(len=*),intent(in)  :: name
 class(*),intent(out)         :: generic
    select type(generic)
       type is (integer);                        call get_args(name,generic)
       type is (real);                           call get_args(name,generic)
-      type is (real(kind=real64));              call get_args(name,generic)
+      type is (real(kind=dp));                  call get_args(name,generic)
       type is (logical);                        call get_args(name,generic)
       !x!type is (character(len=:),allocatable ::);   call get_args(name,generic)
       type is (character(len=*));
